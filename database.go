@@ -17,7 +17,7 @@ func NewPostgresCleanup(s *godog.Suite, postgresDSN string) {
             (SELECT
                 'TRUNCATE TABLE '
                 || string_agg(format('%I.%I', schemaname, tablename), ', ')
-                || ' CASCADE'
+                || ' RESTART IDENTITY CASCADE'
             FROM   pg_tables
             WHERE  schemaname = 'public'
             );
