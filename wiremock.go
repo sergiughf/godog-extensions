@@ -37,10 +37,10 @@ type (
 var wm WireMock
 
 // NewWireMock sets the server url on the WireMock struct and resets mocks before scenarios
-func NewWireMock(s *godog.Suite, serverURL string) {
+func NewWireMock(ctx *godog.ScenarioContext, serverURL string) {
 	wm.serverURL = serverURL
 
-	s.BeforeScenario(func(interface{}) {
+	ctx.BeforeScenario(func(s *godog.Scenario) {
 		if err := wm.ResetMocks(); err != nil {
 			log.Fatalf("failed to reset mocks before scenarios: %+v", err.Error())
 		}

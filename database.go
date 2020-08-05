@@ -8,7 +8,7 @@ import (
 )
 
 // NewPostgresCleanup executes a query before each scenario in order to clean the postgres db
-func NewPostgresCleanup(s *godog.Suite, postgresDSN string) {
+func NewPostgresCleanup(ctx *godog.ScenarioContext, postgresDSN string) {
 	cleanupQuery := `
         DO
         $func$
@@ -30,7 +30,7 @@ func NewPostgresCleanup(s *godog.Suite, postgresDSN string) {
 		log.Fatalf("failed to connect to postgres while executing the db clean up: %+v", err.Error())
 	}
 
-	s.BeforeScenario(func(interface{}) {
+	ctx.BeforeScenario(func(scenario *godog.Scenario) {
 		if _, err := db.Exec(cleanupQuery); err != nil {
 			log.Fatalf("failed to execute db cleanup before scenarios: %+v", err.Error())
 		}

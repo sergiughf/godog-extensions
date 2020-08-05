@@ -4,19 +4,18 @@ import (
 	"fmt"
 
 	"github.com/cucumber/godog"
-	"github.com/cucumber/godog/gherkin"
 	"github.com/onsi/gomega"
 )
 
 // NewGomegaFailHandler registers gomega fail handler
-func NewGomegaFailHandler(s *godog.Suite) {
+func NewGomegaFailHandler(ctx *godog.ScenarioContext) {
 	var failures []string
 
 	gomega.RegisterFailHandler(func(message string, _ ...int) {
 		failures = append(failures, message)
 	})
 
-	s.AfterStep(func(step *gherkin.Step, err error) {
+	ctx.AfterStep(func(step *godog.Step, err error) {
 		if err == nil {
 			return
 		}
